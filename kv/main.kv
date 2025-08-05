@@ -1,0 +1,118 @@
+#:kivy 2.1.0
+
+<MainScreen>:
+    spinner_machine: spinner_machine
+    input_date: input_date
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            Label:
+                text: 'Máquina:'
+                size_hint_x: None
+                width: '80dp'
+            Spinner:
+                id: spinner_machine
+                text: 'Sin máquinas'
+                values: []
+                size_hint_x: None
+                width: '150dp'
+            Button:
+                text: '+'
+                size_hint_x: None
+                width: '40dp'
+                on_press: root.add_machine_popup()
+
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            Label:
+                text: 'Fecha (AAAA-MM-DD):'
+                size_hint_x: None
+                width: '150dp'
+            TextInput:
+                id: input_date
+                multiline: False
+                hint_text: '2025-08-05'
+
+        Button:
+            text: 'Registrar Falla'
+            size_hint_y: None
+            height: '50dp'
+            on_press: root.add_record()
+
+        Button:
+            text: 'Ver Historial'
+            size_hint_y: None
+            height: '50dp'
+            on_press: app.root.current = 'history'
+
+
+<HistoryScreen>:
+    spinner_machine: spinner_machine
+    spinner_date: spinner_date
+    layout_records: layout_records
+    label_summary: label_summary
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            Label:
+                text: 'Máquina:'
+                size_hint_x: None
+                width: '80dp'
+            Spinner:
+                id: spinner_machine
+                text: 'Sin máquinas'
+                values: []
+                size_hint_x: None
+                width: '150dp'
+                on_text: root.update_dates()
+
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            Label:
+                text: 'Fecha:'
+                size_hint_x: None
+                width: '80dp'
+            Spinner:
+                id: spinner_date
+                text: 'Sin fechas'
+                values: []
+                size_hint_x: None
+                width: '150dp'
+                on_text: root.show_records()
+
+        ScrollView:
+            do_scroll_x: False
+
+            GridLayout:
+                id: layout_records
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 5
+
+        Label:
+            id: label_summary
+            size_hint_y: None
+            height: '30dp'
+            text: ''
+
+
+        Button:
+            size_hint_y: None
+            height: '50dp'
+            text: 'Volver'
+            on_press: app.root.current = 'main'
